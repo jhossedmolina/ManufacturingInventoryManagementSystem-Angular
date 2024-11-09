@@ -10,5 +10,5 @@ import { ToolbarComponent } from "./shared/toolbar/toolbar.component";
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'ManufacturingInventoryManagementSystem-Angular';
+  title: string = 'Sistema Gestor de Inventarios';
 }

@@ -1,13 +1,32 @@
 import { Routes } from '@angular/router';
-import { AddProductComponent } from './product/add-product/add-product.component';
-import { ProductListComponent } from './product/product-list/product-list.component';
-import { LoginComponent } from './login/login/login.component';
-import { AddUserComponent } from './user/add-user/add-user.component';
 
 export const routes: Routes = [
-  { path: 'agregar-productos', component: AddProductComponent },
-  { path: 'lista-de-productos', component: ProductListComponent},
-  { path: 'iniciar-sesion', component: LoginComponent},
-  { path: '**', redirectTo: 'iniciar-sesion', pathMatch: 'full'},
-  { path: 'registrarse', component: AddUserComponent}
+  {
+    path: 'autenticacion',
+    loadComponent: () => import('./auth/layouts/auth-layout/auth-layout.component'),
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./auth/auth.routes')
+      }
+    ]
+  },
+    /*children: [
+      {
+        path: 'iniciar-sesion',
+        title: 'Iniciar Sesion',
+        loadComponent: () => import('./auth/pages/login-page/login-page.component')
+      },
+      {
+        path: 'registrarse',
+        title: 'Registrarse',
+        loadComponent: () => import('./auth/pages/register-page/register-page.component')
+      }
+    ]
+  },*/
+  {
+    path: '',
+    redirectTo: 'autenticacion',
+    pathMatch: 'full'
+  }
 ];
