@@ -3,7 +3,8 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { catchError, map, Observable, of, tap, throwError } from 'rxjs';
 import { AuthStatus } from '../enums/auth-status.enum';
-import { LoginResponse } from '../interfaces';
+import { LoginResponse, User } from '../interfaces';
+import { ApplicationUser } from '../interfaces/applicationUser.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -21,17 +22,15 @@ export class AuthService {
 
   constructor() { }
 
-  login( email: string, password: string): Observable<boolean>{
+  login( user: User ): Observable<boolean>{
     const url = `${ this.baseUrl }/User/Login`;
-    const body = {email, password };
 
-    return this.http.post<LoginResponse>(url, body)
+    return this.http.post<LoginResponse>(url, user)
       .pipe(
-        tap( ({ token }) => {
-          this._currentUser.set(  email );
+        tap( ({ userName, token }) => {
+          this._currentUser.set(  userName );
           this._authStatus.set( AuthStatus.authenticated );
           localStorage.setItem('token', token!);
-          console.log(email, token );
         }),
         map( ()  => true),
 
@@ -39,5 +38,18 @@ export class AuthService {
           return throwError( () => err.error.message);
         })
       );
+  }
+
+  register( appUser: ApplicationUser ){
+    const url = `${ this.baseUrl }/User/Register`;
+
+    return this.http.post<boolean>(url, appUser)
+      .pipe(
+        map( ()  => true),
+
+        catchError(err => {
+        return throwError( () => console.log(err))
+      })
+    );
   }
 }

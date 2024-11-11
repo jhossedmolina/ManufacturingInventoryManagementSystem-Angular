@@ -7,10 +7,12 @@
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
+    <img src="https://w7.pngwing.com/pngs/617/409/png-transparent-fiction-thumb-character-animated-cartoon-goku-hair-hand-fictional-character-animated-cartoon.png" alt="">
+
     <form class="example-form" [formGroup]="myForm" (ngSubmit)="login()">
       <mat-form-field class="w-full mb-4">
         <mat-label>Correo Electrónico</mat-label>
-        <input type="text" matInput placeholder="Ej. ejemplo@mail.com" formControlName="email">
+        <input type="email" matInput placeholder="Ej. ejemplo@mail.com" formControlName="email">
       </mat-form-field>
 
       <mat-form-field class="w-full mb-4">
@@ -23,5 +25,6 @@
         Ingresar
       </button>
     </form>
+      <a [routerLink]="['/autenticacion/registro']">¿No tienes cuenta?</a>
   </mat-card-content>
 </mat-card>

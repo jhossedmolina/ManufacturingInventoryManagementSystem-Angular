@@ -1,1 +1,63 @@
-<p>register-page works!</p>
+<mat-card appearance="outlined" class="w-full max-w-sm mx-auto mt-12 p-8 rounded-lg shadow-md">
+  <mat-card-header>
+    <mat-card-title>
+      <span class="text-xl font-semibold text-gray-700">
+        {{ title | uppercase }}
+      </span>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form class="example-form" [formGroup]="registerForm" (ngSubmit)="registerUser()">
+      <mat-form-field class="w-full mb-4">
+        <mat-label>Nombre Completo</mat-label>
+        <input type="text" matInput placeholder="Ej. Luisa Fernanda Martinez" formControlName="name" [errorStateMatcher]="matcher">
+
+        @if (name?.touched && name?.hasError('required')) {
+          <mat-error>El nombre es <strong>requerido</strong></mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field class="w-full mb-4">
+        <mat-label>Correo Electrónico</mat-label>
+        <input type="email" matInput placeholder="Ej. ejemplo@mail.com" formControlName="email">
+        @if (email?.touched && email?.hasError('required')) {
+          <mat-error>El correo electrónico es <strong>requerido</strong></mat-error>
+        }
+
+        @if (email?.touched && email?.hasError('email')) {
+          <mat-error>Debes ingresar un correo electrónico <strong>valido</strong></mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field class="w-full mb-4">
+        <mat-label>Contraseña</mat-label>
+        <input type="password" matInput placeholder="Ej. Password" formControlName="password" [errorStateMatcher]="matcher">
+        <mat-icon matSuffix>visibility</mat-icon>
+
+        @if (password?.touched && password?.hasError('required')) {
+          <mat-error>La contraseña es <strong>requerida</strong></mat-error>
+        }
+        @if (password?.touched && password?.hasError('minlength')) {
+          <mat-error>La contraseña debe tener al menos <strong>6 caracteres</strong></mat-error>
+        }
+        @if (password?.touched &&password?.hasError('upperCase')) {
+          <mat-error>La contraseña debe contener al menos una letra <strong>mayúscula</strong></mat-error>
+        }
+        @if (password?.hasError('lowerCase')) {
+          <mat-error>La contraseña debe contener al menos una letra <strong>minúscula</strong></mat-error>
+        }
+        @if (password?.hasError('number')) {
+          <mat-error>La contraseña debe contener al menos un <strong>número</strong></mat-error>
+        }
+        @if (password?.hasError('specialCharacter')) {
+          <mat-error>La contraseña debe contener al menos un carácter <strong>especial</strong></mat-error>
+        }
+      </mat-form-field>
+
+      <button type="submit" mat-flat-button color="primary" [disabled]="registerForm.invalid" class="w-full mt-32">
+        Ingresar
+      </button>
+    </form>
+    <a [routerLink]="['/autenticacion/iniciar-sesion']">Iniciar sesión</a>
+  </mat-card-content>
+</mat-card>
