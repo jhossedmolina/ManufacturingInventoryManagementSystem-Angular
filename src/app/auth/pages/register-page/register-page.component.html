@@ -9,7 +9,7 @@
   <mat-card-content>
     <form class="example-form" [formGroup]="registerForm" (ngSubmit)="registerUser()">
       <mat-form-field class="w-full mb-4">
-        <mat-label>Nombre Completo</mat-label>
+        <mat-label class="block text-sm font-semibold text-gray-700">Nombre Completo</mat-label>
         <input type="text" matInput placeholder="Ej. Luisa Fernanda Martinez" formControlName="name" [errorStateMatcher]="matcher">
 
         @if (name?.touched && name?.hasError('required')) {
@@ -18,7 +18,7 @@
       </mat-form-field>
 
       <mat-form-field class="w-full mb-4">
-        <mat-label>Correo Electrónico</mat-label>
+        <mat-label class="block text-sm font-semibold text-gray-700">Correo Electrónico</mat-label>
         <input type="email" matInput placeholder="Ej. ejemplo@mail.com" formControlName="email">
         @if (email?.touched && email?.hasError('required')) {
           <mat-error>El correo electrónico es <strong>requerido</strong></mat-error>
@@ -30,7 +30,7 @@
       </mat-form-field>
 
       <mat-form-field class="w-full mb-4">
-        <mat-label>Contraseña</mat-label>
+        <mat-label class="block text-sm font-semibold text-gray-700">Contraseña</mat-label>
         <input type="password" matInput placeholder="Ej. Password" formControlName="password" [errorStateMatcher]="matcher">
         <mat-icon matSuffix>visibility</mat-icon>
 

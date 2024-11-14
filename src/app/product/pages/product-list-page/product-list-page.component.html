@@ -1,0 +1,47 @@
+<div class="p-6 bg-white rounded-lg shadow-md">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-lg font-semibold text-gray-700">{{ title | uppercase }}</h2>
+    <button mat-raised-button (click)="openAddProductDialog()">Agregar Nuevo Producto</button>
+  </div>
+
+  <table mat-table [dataSource]="dataSource" class="w-full text-left border border-gray-200 rounded-lg overflow-hidden shadow-lg">
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-2 bg-gray-100 text-gray-700 font-medium">No.</th>
+      <td mat-cell *matCellDef="let element" class="px-4 py-2 border-b border-gray-200"> {{element.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-2 bg-gray-100 text-gray-700 font-medium">Tipo de elaboración</th>
+      <td mat-cell *matCellDef="let element" class="px-4 py-2 border-b border-gray-200"> {{element.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="productionType">
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-2 bg-gray-100 text-gray-700 font-medium">Nombre del producto</th>
+      <td mat-cell *matCellDef="let element" class="px-4 py-2 border-b border-gray-200"> {{element.productionType}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-2 bg-gray-100 text-gray-700 font-medium">Estado del producto</th>
+      <td mat-cell *matCellDef="let element" class="px-4 py-2 border-b border-gray-200"> {{element.status}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-2 bg-gray-100 text-gray-700 font-medium">Acciones</th>
+      <td mat-cell *matCellDef="let element" class="px-4 py-2 border-b border-gray-200 space-x-2">
+        <button mat-flat-button (click)="markProductAsDefective(element.id)">
+          Marcar Como Defectuoso
+        </button>
+        <button mat-flat-button (click)="openEditProductDialog()">
+          Editar
+        </button>
+        <button type="button" mat-flat-button (click)="deleteProduct(element.id)">
+          Eliminar
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns" class="bg-gray-50"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="hover:bg-gray-100"></tr>
+  </table>
+</div>

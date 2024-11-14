@@ -4,7 +4,7 @@ import { environment } from '../../../environments/environment.development';
 import { catchError, map, Observable, of, tap, throwError } from 'rxjs';
 import { AuthStatus } from '../enums/auth-status.enum';
 import { LoginResponse, User } from '../interfaces';
-import { ApplicationUser } from '../interfaces/applicationUser.interface';
+import { ApplicationUser } from '../interfaces/application-user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +40,7 @@ export class AuthService {
       );
   }
 
-  register( appUser: ApplicationUser ){
+  register( appUser: ApplicationUser ): Observable<boolean>{
     const url = `${ this.baseUrl }/User/Register`;
 
     return this.http.post<boolean>(url, appUser)

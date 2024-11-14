@@ -4,7 +4,7 @@ import { UpperCasePipe } from '@angular/common';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { ApplicationUser } from '../../interfaces/applicationUser.interface';
+import { ApplicationUser } from '../../interfaces/application-user.interface';
 import { Router, RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
 
@@ -24,14 +24,14 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export default class RegisterPageComponent {
 
-  private fb = inject( FormBuilder );
-  private authService = inject( AuthService );
-  private router = inject( Router );
+  private readonly _fb = inject( FormBuilder );
+  private readonly _authService = inject( AuthService );
+  private readonly _router = inject( Router );
 
   title: string = 'Registro';
   matcher = new MyErrorStateMatcher();
 
-  public registerForm: FormGroup = this.fb.group({
+  public registerForm: FormGroup = this._fb.group({
     name: ['', [ Validators.required ]],
     email: ['', [ Validators.required, Validators.email ]],
     password: [ '', [ Validators.required, Validators.minLength(6), this.hasUppercase(), this.hasLowerCase(),
@@ -87,11 +87,17 @@ export default class RegisterPageComponent {
       password: password
     };
 
-    this.authService.register(appUser)
+    this._authService.register(appUser)
     .subscribe({
       next: () => {
-        Swal.fire('Completado', 'Usuario creado correctamente', 'success');
-        this.router.navigate(['/autenticacion/iniciar-sesion']);
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Usuario creado correctamente",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        this._router.navigate(['/autenticacion/iniciar-sesion']);
       },
       error: (errorMessage) => {
         Swal.fire('Error', 'Se produjo un error al intentar registrarse', 'error')

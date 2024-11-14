@@ -1,0 +1,47 @@
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="w-full max-w-lg p-8 mx-auto bg-white rounded-lg shadow-xl space-y-6">
+  <div class="mb-4">
+    <mat-label for="name" class="block text-sm font-semibold text-gray-700">Nombre del producto</mat-label>
+    <input
+      type="text"
+      id="name"
+      formControlName="name"
+      class="w-full px-4 py-3 mt-1 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+      placeholder="Ingrese el nombre del producto"
+    />
+  </div>
+
+  <div class="mb-4">
+    <mat-label for="productionType" class="block text-sm font-semibold text-gray-700">Tipo de producción</mat-label>
+    <mat-select
+      id="productionType"
+      formControlName="productionType"
+      class="w-full px-4 py-3 mt-1 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+    >
+      @for (productionType of productionTypeOptions; track productionType) {
+        <mat-option [value]="productionType.value">{{ productionType.key }}</mat-option>
+      }
+    </mat-select>
+  </div>
+
+  <div class="mb-4">
+    <mat-label for="productStatus" class="block text-sm font-semibold text-gray-700">Estado del producto</mat-label>
+    <mat-select
+      id="productStatus"
+      formControlName="productStatus"
+      class="w-full px-4 py-3 mt-1 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+    >
+      @for (status of productStatusOptions; track status) {
+        <mat-option [value]="status.value">{{ status.key }}</mat-option>
+      }
+    </mat-select>
+  </div>
+
+  <div class="flex items-center justify-between space-x-4">
+    <button type="submit" mat-flat-button [disabled]="productForm.invalid">
+      {{getButtonTitle()}}
+    </button>
+    <button type="button" mat-flat-button  [mat-dialog-close]="false">
+      Cancelar
+    </button>
+  </div>
+</form>

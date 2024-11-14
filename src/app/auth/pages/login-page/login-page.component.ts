@@ -3,7 +3,7 @@ import { MaterialModule } from '../../../material/material.module';
 import { UpperCasePipe } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { User } from '../../interfaces';
 import Swal from 'sweetalert2';
 
@@ -16,12 +16,13 @@ import Swal from 'sweetalert2';
 })
 export default class LoginPageComponent {
 
-  private fb = inject( FormBuilder );
-  private authService = inject( AuthService );
+  private readonly _fb = inject( FormBuilder );
+  private readonly _authService = inject( AuthService );
+  private readonly _router = inject( Router )
 
   title: string = 'Iniciar sesion';
 
-  public myForm: FormGroup = this.fb.group({
+  public myForm: FormGroup = this._fb.group({
     email: ['', [ Validators.required, Validators.email ]],
     password: [ '', [ Validators.required, Validators.minLength(6) ]]
   })
@@ -34,11 +35,9 @@ export default class LoginPageComponent {
       password: password
     };
 
-    this.authService.login(user)
+    this._authService.login(user)
       .subscribe({
-        next: () => {
-          console.log('Usuario logeado correctamente')
-        },
+        next: () => this._router.navigateByUrl('/productos'),
         error: (errorMessage) => {
           Swal.fire('Error', 'Ingrese un usuario y una contraseña validas', 'error');
         }
