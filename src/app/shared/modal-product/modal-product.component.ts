@@ -38,8 +38,15 @@ export class ModalProductComponent implements OnInit {
 
   ngOnInit(): void {
    if(this._matDialog.isEditing){
-    this.productForm.patchValue(this._matDialog.data);
-    this._disabledForm();
+    //this.productForm.patchValue(this._matDialog.data);
+    const productData = {
+      name: this._matDialog.data.name,
+      productionType: this._matDialog.data.productionType, // Ya es el valor numérico del enum
+      productStatus: this._matDialog.data.status
+    };
+    console.log(productData)
+
+    this.productForm.patchValue(productData);
    }
   }
 
@@ -53,19 +60,30 @@ export class ModalProductComponent implements OnInit {
 
   onSubmit() {
     const productFormValue = this.productForm.value;
+    const { name, productionType, productStatus } = productFormValue;
+    const product: Product = {
+      name: name!,
+      productionType: productionType!,
+      status: productStatus!
+    };
 
     if (this._matDialog.data)
     {
-      console.log('Perrita')
-      //this._productService.updateProduct(this._matDialog.data.id, productFormValue);
+      this._productService.updateProduct(this._matDialog.data.id, product)
+      .subscribe({
+        next: (data) => {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "El producto se ha editado correctamente",
+            showConfirmButton: false,
+            timer: 1500
+          })
+        }
+      })
     } else {
       if (this.productForm.valid) {
-        const { name, productionType, productStatus } = productFormValue;
-        const product: Product = {
-          name: name!,
-          productionType: productionType!,
-          status: productStatus!
-        };
+
         this._productService.addNewProduct(product)
           .subscribe({
             next: (data) => {
@@ -82,8 +100,7 @@ export class ModalProductComponent implements OnInit {
       } else {
         console.error('Formulario inválido');
       }
-
-      this._modalProductService.closeModal();
     }
+    this._modalProductService.closeModal();
   }
 }

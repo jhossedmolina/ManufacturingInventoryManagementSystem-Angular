@@ -15,7 +15,7 @@ export const routes: Routes = [
   {
     path: 'productos',
     loadComponent: () => import('./product/layouts/product-layout/product-layout.component'),
-    //canActivate: [ isAuthenticatedGuard ],
+    canActivate: [ isAuthenticatedGuard ],
     children: [
       {
         path: '',
